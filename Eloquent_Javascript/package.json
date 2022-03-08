@@ -1,0 +1,15 @@
+{
+  "name": "eloquent_javascript",
+  "version": "1.0.0",
+  "description": "learns && practices javascript",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+
+  "type": "module",
+
+
+  "author": "Duy Kim",
+  "license": "ISC"
+}
