@@ -404,12 +404,42 @@ const pipe = (...functions) => initialValue => functions.reduce((acc, fn) => fn(
 
 const muttiple6 = pipe(double, tripple)
 
-console.log(muttiple6(6));
+// console.log(muttiple6(6));
 
+// Object to primitive conversion
 
+// three hints: string, number, default
 
+/**
+ * Call obj[Symbol.toPrimitive](hint) - the method with the symbolic key Symbol.toPrimitive, if such method exits
+ * hint: string (for alert and other operations that need a string)
+ *      try obj.toString() and obj.valueOf(), whatever exists
+ * hint: number(for maths) or default (few operators)
+ *      try obj.valueOf() and obj.toString(), whatever exists
+ */
 
+// option 1:
+let user = {
+    name: 'Jonhn',
+    money: 1000,
+    [Symbol.toPrimitive] (hint) {
+        return hint == 'string' ? this.name : this.money
+    }
+}
 
+// option 2:
+let user2 = {
+    name: 'John',
+    money: 1000,
+    valueOf() {
+        return this.money
+    },
+    toString() {
+        return this.name
+    }
+}
+
+// A conversion can return any primitive type, not an object.
 
 
 

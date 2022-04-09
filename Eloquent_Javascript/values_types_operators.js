@@ -32,7 +32,7 @@ false ? 1 : 2
 
     // Symbol coversion is a bit tricky, because it can only be converted explicitly, but not implicitly
     String(Symbol('my symbol')) // 'Symbol(my symbol)'
-    "" + Symbol('my symbol') // TypeError is thrown
+    // "" + Symbol('my symbol') // TypeError is thrown
 
 // Boolean conversion
     // to explicitly convert a value to a boolean apply the Boolean() function.
@@ -81,8 +81,8 @@ false ? 1 : 2
 
     // when comparing a number to a string, try to convert the string to a number, when converting a string to a number, the engine first trims leading and trailing whitespace, \n, \t characters, returning NaN if the trimmed string does not represent a valid number. If string is empty, it returns 0.
     // null and undefined are handled differently: null becomes 0, whereas undefined becomes NaN
-    Number(Symbol('my symbol')) // TypeError is thrown
-    +Symbol('123') // ....
+    // Number(Symbol('my symbol')) // TypeError is thrown
+    // +Symbol('123') // ....
 
     /**
      * there are 2 special rules to remember
@@ -148,7 +148,7 @@ const string3 = new String('string') // typeof string3 // object
 string2 == string3 // string == string3.toString() // true
 
 const date = new Date();
-const s = d.toString();
+const s = date.toString();
 date == s // date.toString() == s // true
 
 // Strict equality ===
@@ -168,3 +168,56 @@ date == s // date.toString() == s // true
 null === undefined // flase
 null === null // false
 NaN === NaN // false
+
+// Symbol.iterator
+
+let range = {
+    from: 1,
+    to: 5
+}
+
+range[Symbol.iterator] = function() {
+    
+    return {
+        current: this.from,
+        last: this.to,
+        next() {
+            if(this.current < this.last) {
+                return { done: false, value: this.current++}
+            } else {
+                return { done: true }
+            }
+        }
+    }
+}
+
+for(let num of range) {
+    console.log(num);
+}
+
+// option 2
+let range2 = {
+    from: 1,
+    to: 5,
+    [Symbol.iterator]() {
+        this.current = this.from;
+        return this
+    },
+    next() {
+        if(this.current < this.to){
+            return { done: false, value: this.current++}
+        } else {
+            return { done: true }
+        }
+    }
+}
+
+let str = 'Hello';
+let iterator = str[Symbol.iterator]();
+
+while(true) {
+    let result = iterator.next();
+    if(result.done) break;
+    console.log(result.value);
+}
+

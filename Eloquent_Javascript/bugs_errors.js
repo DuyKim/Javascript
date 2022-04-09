@@ -117,4 +117,3 @@ function readUser(json) {
 let arr = [];
 console.log(arr[1]);
 
-
