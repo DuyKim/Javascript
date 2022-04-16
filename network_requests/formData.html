@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Data</title>
+</head>
+<body>
+    <canvas id="canvasElem" width="100" height="80" style="border: 1px solid black;"></canvas>
+    <input type="button" value="Submit" onclick="submit()" />
+
+    <script type="text/javascript">
+        const canvas = document.querySelector('.canvasElem');
+        const input = document.querySelector('input');
+
+        canvas.addEventListener('mousemove', e => {
+            const ctx = canvas.getContext('2d');
+            ctx.lineTo(e.clienX, e.clientY);
+            ctx.stroke();
+        });
+
+        async function submit() {
+            const imageBlob = await Promise((resolve, reject) => canvas.toBlob(resolve, 'image/png'))
+            const formData = new FormData();
+            formData.append('firstName', 'John');
+            formData.append('image', imageBlob, 'image.png');
+
+            const response = await fetch(url, {
+                method: 'POST',
+                body: formData
+            })
+
+            return await response.json();
+        }
+
+    </script>
+</body>
+</html>
